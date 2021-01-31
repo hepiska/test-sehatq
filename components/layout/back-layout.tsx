@@ -7,9 +7,13 @@ import { Input,Button, Icon, Header } from 'semantic-ui-react'
 export default withRouter(({router, children, title, description, authOnly}: any) => {
   const isAuth = useSelector((state: any) => state.auth.isAuth)
 
-  if(authOnly && !isAuth){
+  useEffect(() => {
+      if(authOnly && !isAuth){
     router.push("/login")
   }
+  },[authOnly, isAuth])
+
+
   return(
     <div className="global-container">
       <Head>

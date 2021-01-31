@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import BackLayout from '@components/layout/back-layout';
 import {Image, Header, Icon, Segment,Container, Button, TransitionablePortal} from 'semantic-ui-react'
@@ -13,17 +13,17 @@ const ProductDetailPage : React.FC<any> = ({product}) => {
   const[modal, showModal] = useState(false)
   const wishlist = useSelector((state: any) => state.wishlist.data)
   const isLiked = wishlist[product?.id || ""]
-  const _onLike = () => {
+  const _onLike = useCallback(() => {
     if(isLiked){
       dispatch(removeWishlist(product.id))
     }else{
       dispatch(addWishlist(product.id))
     }
-  }
-  const onPurchase= () => {
+  }, [isLiked])
+  const onPurchase= useCallback(() =>  {
     dispatch(addPurchase(product.id))
     showModal(true)
-  }
+  },[])
   return(
     <BackLayout title={product?.title || "test"} description={product?.description ||"test" }>
       <>
